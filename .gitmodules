@@ -1,0 +1,3 @@
+[submodule "mutation-testing/reveal.js"]
+	path = mutation-testing/reveal.js
+	url = git@github.com:hakimel/reveal.js.git

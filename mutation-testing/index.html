@@ -1,0 +1,164 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/night.css">
+        <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+        <style>
+        #framework-logo {
+            background: none;
+            border: none;
+        }
+        </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section>
+                    <h1>Mutation Testing</h1>
+                    <h3>Oli Wennell</h3>
+                    <i>@owennell</i>
+                </section>
+
+                <!-- The problem -->
+				<section><h1>The Goal</h1></section>
+                <section><h1>Test Coverage</h1></section>
+                <section><h1>But...</h1></section>
+                <section>
+                    <pre><code data-trim data-noescape>
+wibbleIt: function(input) {
+    if (input.length > 0 && input.length < 10) {
+        return input + " wibble";
+    }
+
+    return "wibble";
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code data-trim data-noescape>
+describe('Wibbling a non-empty string', () => {
+
+    it("returns the input with wibble on the end", () => {
+        assert.equal("a wibble", wibbler.wibbleIt("a"));
+    });
+});
+
+describe('Wibbling an empty string', () => {
+
+    it("returns wibble", function() {
+        assert.equal("wibble", wibbler.wibbleIt(""));
+    });
+});
+                    </code></pre>
+                </section>
+                <section>
+                    <h1>And the test coverage is...</h1>
+                    <div class="fragment fade-up">
+                        <img src="100pc-coverage.png">
+                        <h2>100%!</h2>
+                    </div>
+                </section>
+                <section>
+                    <h1>Remove all assertions?...</h1>
+                    <div class="fragment fade-up">
+                        <img src="100pc-coverage.png">
+                        <h2>100%!</h2>
+                    </div>
+                </section>
+                <section>
+                    <img src="sad.jpg">
+                    <h2 class="fragment">Wouldn't it be nice if...</h2>
+                </section>
+
+                <!-- Mutation testing: what is it -->
+                <section>
+                    <h3>Mutation Testing</h3>
+                    <img src="unicorn.jpg">
+                </section>
+                <section>
+                    <h1>Mutate = change the code</h1>
+                </section>
+                <section data-transition="none">
+                    <pre ><code data-trim data-noescape>
+wibbleIt: function(input) {
+    if (input.length > 0 && input.length < 10) {
+        return input + " wibble";
+    }
+
+    return "wibble";
+}
+                    </code></pre>
+                </section>
+                <section data-transition="none">
+                    <pre ><code data-trim data-noescape>
+wibbleIt: function(input) {
+    if (input.length > 0 && input.length <mark>&lt;=</mark> 10) {
+        return input + " wibble";
+    }
+
+    return "wibble";
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <img style="width: inherit" src="stryker-mutant-survived.png">
+                </section>
+                <section>
+                    <img src="mutant-survived.jpg">
+                    <p style="font-size: initial">Still from <i>Them!</i> (1954) - http://www.imdb.com/title/tt0047573/</p>
+                </section>
+                <section>
+                    <img style="width: inherit" src="mutation-test-all-the-things.jpg">
+                </section>
+                <section>
+                    <h1>But...</h1>
+                </section>
+                <section>
+                    <h1>Time</h1>
+                </section>
+                <section>
+                    <h1>Support</h1>
+                </section>
+                <section>
+                    <img id="framework-logo" src="stryker.png">
+                </section>
+                <section>
+                    <h1>.NET</h1>
+                </section>
+                <section>
+                    <h1>...and more</h1>
+                </section>
+                <section>
+                    <h1>Summary</h1>
+                    <h3>TL;DR</h3>
+                </section>
+                <section>
+                    <p>
+                        <p>Slides and example code:</p>
+                        <a href="https://github.com/oliwennell/talks">https://github.com/oliwennell/talks</a>
+                    </p>
+
+                    <p>
+                        <p>Stryker:</p>
+                        <a href="stryker-mutator.github.io">stryker-mutator.github.io</a>
+                    </p>
+
+                </section>
+			</div>
+		</div>
+        <script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+                dependencies: [
+                    {
+                        src: 'reveal.js/plugin/highlight/highlight.js',
+                        async: true,
+                        callback: function() { hljs.initHighlightingOnLoad(); }
+                    }
+                ]
+            });
+		</script>
+	</body>
+</html>
