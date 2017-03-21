@@ -23,9 +23,26 @@
                 </section>
 
                 <!-- The problem -->
-				<section><h1>The Goal</h1></section>
-                <section><h1>Test Coverage</h1></section>
-                <section><h1>But...</h1></section>
+				<section><h1>What do we want?</h1></section>
+				<section>
+					<h1 style="color: green">Confidence</h1>
+				</section>
+				<section><h1>How do we get it?</h1></section>
+				<section>
+					<h2 style="color: green" class="fragment fade-in">More than one pair of eyes...</h2>
+					<h2 style="color: green" class="fragment fade-in">Static analysis...</h2>
+					<h2 style="color: green" class="fragment fade-in">...</h2>
+					<h2 style="color: green" class="fragment fade-in">Automated tests</h2>
+				</section>
+                <section><h1>Can we measure test quality?</h1></section>
+				<section>
+					<h1>Yes</h1>
+					<h2 style="color: green" class="fragment fade-in">Test coverage metrics</h2>
+				</section>
+				<section>
+					<img style="width: inherit" src="code-coverage.png">
+				</section>
+				<section><h1>But...</h1></section>
                 <section>
                     <pre><code data-trim data-noescape>
 wibbleIt: function(input) {
@@ -68,6 +85,7 @@ describe('Wibbling an empty string', () => {
                         <h2>100%!</h2>
                     </div>
                 </section>
+				<section><h1>Fettle it</h1></section>
                 <section>
                     <img src="sad.jpg">
                     <h2 class="fragment">Wouldn't it be nice if...</h2>
@@ -77,9 +95,6 @@ describe('Wibbling an empty string', () => {
                 <section>
                     <h3>Mutation Testing</h3>
                     <img src="unicorn.jpg">
-                </section>
-                <section>
-                    <h1>Mutate = change the code</h1>
                 </section>
                 <section data-transition="none">
                     <pre ><code data-trim data-noescape>
@@ -91,6 +106,7 @@ wibbleIt: function(input) {
     return "wibble";
 }
                     </code></pre>
+					<h2>The original code</h2>
                 </section>
                 <section data-transition="none">
                     <pre ><code data-trim data-noescape>
@@ -102,6 +118,7 @@ wibbleIt: function(input) {
     return "wibble";
 }
                     </code></pre>
+					<h2>The mutated version</h2>
                 </section>
                 <section>
                     <img style="width: inherit" src="stryker-mutant-survived.png">
