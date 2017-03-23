@@ -45,29 +45,28 @@
 				<section><h1>But...</h1></section>
                 <section>
                     <pre><code data-trim data-noescape>
-wibbleIt: function(input) {
-    if (input.length > 0 && input.length < 10) {
-        return input + " wibble";
+validate: function(password) {
+
+    if (password.length > 0 && password.length < 10) {
+        return true;
     }
 
-    return "wibble";
+    return false;
 }
                     </code></pre>
                 </section>
                 <section>
                     <pre><code data-trim data-noescape>
-describe('Wibbling a non-empty string', () => {
-
-    it("returns the input with wibble on the end", () => {
-        assert.equal("a wibble", wibbler.wibbleIt("a"));
-    });
+it('An empty string is not a valid password', function() {
+    assert.equal(
+        passwordValidation.validate(""),
+        false);
 });
 
-describe('Wibbling an empty string', () => {
-
-    it("returns wibble", function() {
-        assert.equal("wibble", wibbler.wibbleIt(""));
-    });
+it('A non-empty string is a valid password', () => {
+    assert.equal(
+        passwordValidation.validate("A"),
+        true);
 });
                     </code></pre>
                 </section>
@@ -98,24 +97,26 @@ describe('Wibbling an empty string', () => {
                 </section>
                 <section data-transition="none">
                     <pre ><code data-trim data-noescape>
-wibbleIt: function(input) {
-    if (input.length > 0 && input.length < 10) {
-        return input + " wibble";
+validate: function(password) {
+
+    if (password.length > 0 && password.length < 10) {
+        return true;
     }
 
-    return "wibble";
+    return false;
 }
                     </code></pre>
 					<h2>The original code</h2>
                 </section>
                 <section data-transition="none">
                     <pre ><code data-trim data-noescape>
-wibbleIt: function(input) {
-    if (input.length > 0 && input.length <mark>&lt;=</mark> 10) {
-        return input + " wibble";
+validate: function(password) {
+
+    if (password.length > 0 && password.length <mark>&lt;=</mark> 10) {
+        return true;
     }
 
-    return "wibble";
+    return false;
 }
                     </code></pre>
 					<h2>The mutated version</h2>
