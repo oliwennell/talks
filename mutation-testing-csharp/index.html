@@ -1,131 +1,174 @@
 <html>
 	<head>
 		<link rel="stylesheet" href="reveal.js/css/reveal.css">
-		<link rel="stylesheet" href="reveal.js/css/theme/night.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/league.css">
         <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
         <style>
-        #framework-logo {
-            background: none;
-            border: none;
-        }
+		/* #FF5E99 */
+
+		.reveal h1, h2, h3 {
+			word-wrap: normal;
+			-webkit-hyphens: manual;
+			-moz-hyphens: manual;
+			hyphens: manual;
+		}
+
 		html.dimbg .slide-background {
 		    opacity: 0.2 !important;
 		}
+
+		del {
+			opacity: 0.5
+		}
+
         </style>
 	</head>
 	<body>
 		<div class="reveal">
 			<div class="slides">
 
-				<section>
-                    <h1>Testing a Tool That Tests Tests</h1>
+				<section data-background="Frans_Hals_De_magere_compagnie.jpg" data-state="dimbg">
+                    <h1 class="wibble">Testing a Tool That Tests Tests</h1>
 				</section>
 
 				<section>
-					<blockquote style="font-size: 200%">&ldquo;...77% of the failures can be reproduced by a unit test&rdquo;</blockquote>
+				</section>
+
+				<section>
+					<blockquote style="font-size: 200%; background: none; box-shadow: none">&ldquo;...77% of the failures can be reproduced by a unit test&rdquo;</blockquote>
 					<p style="font-size: 40%">
 						<i>https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-yuan.pdf</i>
 					</p>
 				</section>
 
 				<section>
+					<h1>Better Tests</h1>
+				</section>
+				<section>
 					<img src="./coverage.png" class="stretch" style="background:none; border:none; box-shadow:none">
 				</section>
-
 				<section>
-					<p class="fragment">Write a failing test</p>
-					<p class="fragment">Make it pass</p>
-					<p class="fragment">Refactor</p>
+					<h2 class="fragment" style="color: f55151">Write a failing test</h2>
+					<h2 class="fragment" style="color: green">Make it pass</h2>
+					<h2 class="fragment" style="color: green">Refactor</h2>
 				</section>
 
 				<section>
 					<h1>Demo</h1>
 				</section>
 
-				<section>
+				<section data-background="#FF5E99A0">
 					<h1>Mutation testing</h1>
 				</section>
 
-				<section>
+				<section data-background="#FF5E99A0">
 					<p>(diagram) code and tests</p>
-					<p class="fragment">(diagram) mutatation</p>
+					<p class="fragment">(diagram) mutation</p>
 					<p class="fragment">(diagram) tests run again</p>
 					<p class="fragment">(diagram) did they catch the mutant?</p>
 				</section>
 
-				<section>
-					<p class="fragment">Java</p>
-					<p class="fragment">JavaScript</p>
-					<p class="fragment">Ruby</p>
-					<p class="fragment">PHP</p>
-					<p class="fragment">...and C# ?</p>
+				<section data-background="#FF5E99A0">
+					<h2 class="fragment">Java</h2>
+					<h2 class="fragment">JavaScript</h2>
+					<h2 class="fragment">Ruby</h2>
+					<h2 class="fragment">PHP</h2>
+					<h2 class="fragment">...and C# ?</h2>
 				</section>
 
-				<section>
+				<section data-background="#d29131">
 					<h1>How hard could it be?</h1>
+					<h2 class="fragment">Mutate the code</h2>
+					<h2 class="fragment">Run the tests</h2>
 				</section>
 
-				<section>
-					<h2 class="fragment">Mutate the code</h1>
-					<h2 class="fragment">Run the tests</h1>
+				<section data-background="#d29131">
+					<h1>Mutate the code</h1>
 				</section>
-				<section>
-					<h2>Mutate the code</h1>
-				</section>
-				<section>
+				<section data-background="#d29131">
 					<h1>CIL</h1>
 				</section>
-				<section>
-					<h1>(diagram: code different from CIL)</h1>
+				<section data-background="#d29131">
+					<h2>(diagram: code different from CIL)</h2>
 				</section>
-				<section>
+				<section data-background="#28c16c">
 					<h1>First Pass</h1>
 					<h2 class="fragment">Finds gaps in our tests</h2>
 					<h2 class="fragment">False positives</h2>
 					<h2 class="fragment">Takes hours</h2>
 				</section>
 
-				<section>
+				<section data-background="#d29131">
 					<h1>Roslyn</h1>
 				</section>
-				<section>
-					<p>(screenshot: code with roslyn tree in VS using visualiser plugin)</p>
+				<section data-background="#d29131">
+					<img src="./roslyn-structure.png">
+					<img src="./roslyn-code.png">
 				</section>
-				<section>
+				<section data-background="#28c16c">
 					<h1>Second Pass</h1>
 					<h2 class="fragment">Finds gaps in our tests</h2>
 					<h2 class="fragment"><del>False positives</del></h2>
 					<h2 class="fragment">Takes hours</h2>
 				</section>
 
-				<section>
+				<section data-background="#d29131">
 					<h1>Optimisations</h1>
 				</section>
-				<section>
-					<h2 class="fragment">NUnit API</h2>
-					<h2 class="fragment">Only run relevant tests</h2>
+				<section data-background="#d29131">
+					<h1>NUnit API</h1>
 				</section>
-				<section>
+				<section data-background="#d29131">
+					<h1>Only run relevant tests</h1>
+				</section>
+				<section data-background="#d29131">
 					<p>(diagram: coverage analysis)</p>
 				</section>
-				<section>
+				<section data-background="#28c16c">
 					<h1>Third Pass</h1>
 					<h2 class="fragment">Finds gaps in our tests</h2>
 					<h2 class="fragment"><del>False positives</del></h2>
 					<h2 class="fragment">Takes <del>hours</del> minutes</h2>
 				</section>
 
-				<section>
+				<section data-background="#28c16c">
 					<h1>Part Of The Pipeline</h1>
-					<h2 class="fragment">~44K LOC, 95% test coverage</h2>
 				</section>
-				<section>
-					<h2 class="fragment">Faster feedback helps</h2>
+				<section data-background="#28c16c">
+					<h2 class="fragment">44K lines of code, 96% test coverage</h2>
+					<h2 class="fragment">Run over night and on demand</h2>
+				</section>
+				<section data-background="#d29131">
+					<h1>Issues</h1>
+					<h2 class="fragment">Infinite loops</h2>
+					<h2 class="fragment">OOM</h2>
+					<h2 class="fragment">False negatives</h2>
+				</section>
+				<section data-background="#28c16c">
+					<h1>...But</h1>
 					<h2 class="fragment">2 - 3 mutants a month on average</h2>
-					<h2 class="fragment">We've plugged gaps in our tests</h2>
-					<h2 class="fragment">We've deleted redundant code</h2>
-					<h2 class="fragment">We're reminded to do red-green-refactor</h2>
-					<h2 class="fragment">...greater confidence</h2>
+				</section>
+				<section data-background="#28c16c">
+					<h2 class="fragment">Plug gaps in our tests</h2>
+					<h2 class="fragment">Deleted redundant code</h2>
+					<h2 class="fragment">Encouraged red-green-refactor</h2>
+				</section>
+				<section data-background="#28c16c">
+					<h1>...Greater confidence</h1>
+				</section>
+
+				<section data-background="#FF5E99A0">
+					<h1>The Future</h1>
+					<h2 class="fragment">More types of mutations</h2>
+					<h2 class="fragment">Faster feedback</h2>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h1>We Need You</h1>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h1>Have a chat</h1>
+					<p><a href="https://twitter.com/owennell">@owennell</a></p>
+					<p><a href="mailto:oliver.wennell@bglgroup.co.uk">oliver.wennell@bglgroup.co.uk</a></p>
 				</section>
 
 			</div>
