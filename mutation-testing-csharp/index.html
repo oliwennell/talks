@@ -38,6 +38,96 @@
 					<p class="fragment">Refactor</p>
 				</section>
 
+				<section>
+					<h1>Demo</h1>
+				</section>
+
+				<section>
+					<h1>Mutation testing</h1>
+				</section>
+
+				<section>
+					<p>(diagram) code and tests</p>
+					<p class="fragment">(diagram) mutatation</p>
+					<p class="fragment">(diagram) tests run again</p>
+					<p class="fragment">(diagram) did they catch the mutant?</p>
+				</section>
+
+				<section>
+					<p class="fragment">Java</p>
+					<p class="fragment">JavaScript</p>
+					<p class="fragment">Ruby</p>
+					<p class="fragment">PHP</p>
+					<p class="fragment">...and C# ?</p>
+				</section>
+
+				<section>
+					<h1>How hard could it be?</h1>
+				</section>
+
+				<section>
+					<h2 class="fragment">Mutate the code</h1>
+					<h2 class="fragment">Run the tests</h1>
+				</section>
+				<section>
+					<h2>Mutate the code</h1>
+				</section>
+				<section>
+					<h1>CIL</h1>
+				</section>
+				<section>
+					<h1>(diagram: code different from CIL)</h1>
+				</section>
+				<section>
+					<h1>First Pass</h1>
+					<h2 class="fragment">Finds gaps in our tests</h2>
+					<h2 class="fragment">False positives</h2>
+					<h2 class="fragment">Takes hours</h2>
+				</section>
+
+				<section>
+					<h1>Roslyn</h1>
+				</section>
+				<section>
+					<p>(screenshot: code with roslyn tree in VS using visualiser plugin)</p>
+				</section>
+				<section>
+					<h1>Second Pass</h1>
+					<h2 class="fragment">Finds gaps in our tests</h2>
+					<h2 class="fragment"><del>False positives</del></h2>
+					<h2 class="fragment">Takes hours</h2>
+				</section>
+
+				<section>
+					<h1>Optimisations</h1>
+				</section>
+				<section>
+					<h2 class="fragment">NUnit API</h2>
+					<h2 class="fragment">Only run relevant tests</h2>
+				</section>
+				<section>
+					<p>(diagram: coverage analysis)</p>
+				</section>
+				<section>
+					<h1>Third Pass</h1>
+					<h2 class="fragment">Finds gaps in our tests</h2>
+					<h2 class="fragment"><del>False positives</del></h2>
+					<h2 class="fragment">Takes <del>hours</del> minutes</h2>
+				</section>
+
+				<section>
+					<h1>Part Of The Pipeline</h1>
+					<h2 class="fragment">~44K LOC, 95% test coverage</h2>
+				</section>
+				<section>
+					<h2 class="fragment">Faster feedback helps</h2>
+					<h2 class="fragment">2 - 3 mutants a month on average</h2>
+					<h2 class="fragment">We've plugged gaps in our tests</h2>
+					<h2 class="fragment">We've deleted redundant code</h2>
+					<h2 class="fragment">We're reminded to do red-green-refactor</h2>
+					<h2 class="fragment">...greater confidence</h2>
+				</section>
+
 			</div>
 		</div>
         <script src="reveal.js/lib/js/head.min.js"></script>
