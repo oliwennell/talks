@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="reveal.js/css/theme/night.css">
+        <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
+        <style>
+        #framework-logo {
+            background: none;
+            border: none;
+        }
+		html.dimbg .slide-background {
+		    opacity: 0.2 !important;
+		}
+        </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section>
+                    <h1>Testing a Tool That Tests Tests</h1>
+				</section>
+
+				<section>
+					<blockquote style="font-size: 200%">&ldquo;...77% of the failures can be reproduced by a unit test&rdquo;</blockquote>
+					<p style="font-size: 40%">
+						<i>https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-yuan.pdf</i>
+					</p>
+				</section>
+
+				<section>
+					<img src="./coverage.png" class="stretch" style="background:none; border:none; box-shadow:none">
+				</section>
+
+				<section>
+					<p class="fragment">Write a failing test</p>
+					<p class="fragment">Make it pass</p>
+					<p class="fragment">Refactor</p>
+				</section>
+
+			</div>
+		</div>
+        <script src="reveal.js/lib/js/head.min.js"></script>
+		<script src="reveal.js/js/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+                dependencies: [
+                    {
+                        src: 'reveal.js/plugin/highlight/highlight.js',
+                        async: true,
+                        callback: function() { hljs.initHighlightingOnLoad(); }
+                    },
+					// Zoom in and out with Alt+click
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+                ]
+            });
+		</script>
+	</body>
+</html>
