@@ -30,6 +30,9 @@
 
 				<section data-background="Frans_Hals_De_magere_compagnie.jpg" data-state="dimbg">
                     <h1>Testing a Tool That Tests Tests</h1>
+					<p style="font-size: 40%; opacity: 0.5">
+						<i>"De Magere Compagnie" by Frans Hals, photo from wikipedia.org</i>
+					</p>
 				</section>
 
 				<section>
@@ -51,10 +54,15 @@
 				<section>
 					<img src="./coverage.png" class="stretch" style="background:none; border:none; box-shadow:none">
 				</section>
-				<section>
+				<section data-transition="none">
 					<h2 class="fragment" style="color: f55151">Write a failing test</h2>
 					<h2 class="fragment" style="color: green">Make it pass</h2>
 					<h2 class="fragment" style="color: green">Refactor</h2>
+				</section>
+				<section data-transition="none">
+					<h2 style="color: f55151">Write a failing test</h2>
+					<h2 style="color: green">&nbsp;</h2>
+					<h2 style="color: green">&nbsp;</h2>
 				</section>
 				<section>
 					<h2>
@@ -65,9 +73,8 @@
 						<span class="fragment">Profit? 💰</span>
 					</h2>
 				</section>
-
-				<section data-background="#FF5E99A0">
-					<h1>Mutation testing 👾</h1>
+				<section data-background="#d29131">
+					<h1>It's a great <u>start</u></h1>
 				</section>
 
 				<section data-transition="none" data-background="#FF5E99A0">
@@ -98,13 +105,16 @@ public void Perfect_tea_time()
 					</code></pre>
 					<h2 class="fragment">All code covered 😬</h2>
 				</section>
+				<section data-background="#FF5E99A0">
+					<h1>Mutation testing 👾</h1>
+				</section>
 				<section data-transition="none" data-background="#FF5E99A0">
                     <pre><code data-trim data-noescape>
 
 public static bool IsItTeaTimeYet(
 	int hour)
 {
-    return hour >= 5 && hour < 22; // '> 5' mutated to '>= 5'
+    return hour <mark>&gt;=</mark> 5 && hour < 22; // '> 5' mutated to '>= 5'
 }
 
 					</code></pre>
@@ -124,8 +134,8 @@ public void Perfect_tea_time()
 }
 
 					</code></pre>
-					<h2 class="fragment"><span>All code covered</span><span class="fragment"></span></h2>
-					<h2 class="fragment"><span>Mutants survived 👾</span><span class="fragment"></span></h2>
+					<h2 class="fragment"><span>All code covered</span></h2>
+					<h2 class="fragment"><span>Mutants survived 👾</span></span></h2>
 				</section>
 
 				<section data-background="#FF5E99A0">
@@ -254,6 +264,8 @@ MethodDeclaration
 		Parameter			# int hour
 		CloseParenToken
 
+		...
+
 </code></pre>
 				</section>
 				<section data-background="#28c16c">
@@ -261,6 +273,12 @@ MethodDeclaration
 					<h2 class="fragment">Finds gaps in our tests 👍</h2>
 					<h2 class="fragment"><del>False positives</del> 👍</h2>
 					<h2 class="fragment">Takes hours 😬</h2>
+				</section>
+				<section data-background="#d29131">
+					<h1>Optimisations</h1>
+				</section>
+				<section data-background="#d29131">
+					<h1>NUnit API</h1>
 				</section>
 				<section data-background="#d29131">
 					<pre><code data-trim data-noescape>
@@ -274,18 +292,113 @@ for every class
 					<h2 class="fragment">😱</h2>
 				</section>
 
-				<section data-background="#d29131">
-					<h1>Optimisations</h1>
-				</section>
-				<section data-background="#d29131">
-					<h1>NUnit API</h1>
-				</section>
+
 				<section data-background="#d29131">
 					<h1>Only run relevant tests</h1>
 				</section>
-				<section data-background="#d29131">
-					<p>(diagram: coverage analysis)</p>
+				<section data-background="#d29131" data-transition="none">
+					<table>
+						<tr>
+							<td><p>MethodA</p></td><td>&nbsp;</td><td><p>TestX</p></td>
+						</tr>
+						<tr>
+							<td><p>MethodB</p></td><td>&nbsp;</td><td><p>TestY</p></td>
+						</tr>
+						<tr>
+							<td><p>MethodC</p></td><td>&nbsp;</td><td>TestZ</td>
+						</tr>
+					</table>
 				</section>
+				<section data-background="#d29131" data-transition="none">
+					<table>
+						<tr>
+							<td></td><td>&nbsp;</td><td><p>TestX</p></td>
+						</tr>
+						<tr>
+							<td><p class="fragment">MethodB</p></td><td>&nbsp;</td><td><p style="opacity: 0.5">TestY</p></td>
+						</tr>
+						<tr>
+							<td><p class="fragment">MethodC</p></td><td>&nbsp;</td><td style="opacity: 0.5">TestZ</td>
+						</tr>
+					</table>
+				</section>
+				<section data-background="#d29131" data-transition="none">
+					<table>
+						<tr>
+							<td><p class="fragment">MethodA</p></td><td>&nbsp;</td><td><p style="opacity: 0.5">TestX</p></td>
+						</tr>
+						<tr>
+							<td></td><td>&nbsp;</td><td><p>TestY</p></td>
+						</tr>
+						<tr>
+							<td><p class="fragment">MethodC</p></td><td>&nbsp;</td><td style="opacity: 0.5">TestZ</td>
+						</tr>
+					</table>
+				</section>
+				<section data-background="#d29131" data-transition="none">
+					<table>
+						<tr>
+							<td></td><td>&nbsp;</td><td><p style="opacity: 0.5">TestX</p></td>
+						</tr>
+						<tr>
+							<td></td><td>&nbsp;</td><td><p style="opacity: 0.5">TestY</p></td>
+						</tr>
+						<tr>
+							<td><p class="fragment">MethodC</p></td><td>&nbsp;</td><td>TestZ</td>
+						</tr>
+					</table>
+				</section>
+				<section data-background="#d29131" data-transition="fade">
+					<table>
+						<tr>
+							<td><p>TestX</p></td><td>&nbsp;</td><td><p>MethodB, MethodC</p></td>
+						</tr>
+						<tr>
+							<td><p>TestY</p></td><td>&nbsp;</td><td><p>MethodA, MethodC</p></td>
+						</tr>
+						<tr>
+							<td><p>TestZ</p></td><td>&nbsp;</td><td>MethodC</td>
+						</tr>
+					</table>
+				</section>
+				<section data-background="#d29131" data-transition="fade">
+					<table>
+						<tr>
+							<td><p>MethodA</p></td><td>&nbsp;</td><td><p>TestY</p></td>
+						</tr>
+						<tr>
+							<td><p>MethodB</p></td><td>&nbsp;</td><td><p>TestX</p></td>
+						</tr>
+						<tr>
+							<td><p>MethodC</p></td><td>&nbsp;</td><td>TestX, TestY, TestZ</td>
+						</tr>
+					</table>
+				</section>
+				<section data-background="#d29131">
+					<h1>How to signal?</h1>
+				</section>
+				<section data-background="#d29131" data-transition="none">
+					<pre><code data-trim data-noescape>
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+	return hour > 5 && hour < 22;
+}
+					</code></pre>
+				</section>
+				<section data-background="#d29131" data-transition="none">
+					<pre><code data-trim data-noescape>
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+	Console.WriteLine(
+		"Fettle: d3044986-2942-4d5b-b157-99c0d9488f54");
+
+	return hour > 5 && hour < 22;
+}
+					</code></pre>
+				</section>
+
 				<section data-background="#28c16c">
 					<h1>Third Pass</h1>
 					<h2 class="fragment">Finds gaps in our tests 👍</h2>
@@ -304,7 +417,7 @@ for every class
 					<h1>Issues</h1>
 				</section>
 				<section data-background="#d29131">
-					<h2 class="fragment">Infinite loops</h2>
+					<h2 class="fragment">Infinite loops 💥</h2>
 					<pre class="fragment"><code data-trim data-noescape>
 for (int i = 0; i < num; i++)
 {
@@ -326,14 +439,13 @@ for (int i = 0; i < num; i--) // '++' changed to '--'
 					<h2 class="fragment">2 - 3 mutants a month on average</h2>
 				</section>
 				<section data-background="#28c16c">
-					<h2 class="fragment">Plug gaps in our tests</h2>
-					<h2 class="fragment">Deleted redundant code</h2>
-					<h2 class="fragment">Encouraged red-green-refactor</h2>
+					<h2 class="fragment">Plug gaps in our tests 👍</h2>
+					<h2 class="fragment">Deleted redundant code 👍</h2>
+					<h2 class="fragment">Encouraged red-green-refactor 👍</h2>
 				</section>
 				<section data-background="#28c16c">
-					<h1>...Greater confidence</h1>
+					<h1>...Greater confidence 😁</h1>
 				</section>
-
 				<section data-background="#FF5E99A0">
 					<h1>The Future</h1>
 					<h2 class="fragment">More types of mutations</h2>
@@ -341,6 +453,12 @@ for (int i = 0; i < num; i--) // '++' changed to '--'
 				</section>
 				<section data-background="#FF5E99A0">
 					<h1>We Need You 📢</h1>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h1>Thanks to</h1>
+					<h2>Peter Hunt</h2>
+					<h2>Raghav Suryanarayanan</h2>
+					<h2>...and others</h2>
 				</section>
 				<section data-background="#FF5E99A0">
 					<h1>Have a chat</h1>
