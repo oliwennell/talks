@@ -3,6 +3,9 @@ In 2014 some researches from the University of Toronto did some research on crit
 They took bugs that had been found in large, complicated open source projects such as Redis, Hadoop, and analysed how they came about.
 
 One of their findings was:
+
+>>>>>>>>>>
+
 <quote>
 
 Now these are well designed, well tested systems. When I first read that I thought, "well, if even these projects have these kind of bugs then what hope have we got".
@@ -13,43 +16,314 @@ Unit tests are the foundation on which you build higher level tests. Knowing the
 
 But there's something positive here, too.
 
-So another way of saying this, is:
+Another way of saying this, is:
+
+>>>>>>>>>>
+
 <quote>
+
 and unit tests are normally quick to write and fast to run.
+
+>>>>>>>>>>
 
 So how do we write more comprehensive unit tests?
 
+>>>>>>>>>>
+
 One way is to use test coverage tools.
 These tell you which bits of your code was run by your tests.
+
 <image>
+
 Imagine if the green bits were run by the tests, and the grey weren't.
 The grey bits you know for sure aren't tested.
 But what about the green bits?
+We'll come to that.
+
+>>>>>>>>>>
 
 Another way is to use the red-green-refactor method.
+
+>>>>>>>>>>
+
 <r/g/r>
 The idea is that you never write functionality without having a test.
 
-So by using red-green-refactor, and test coverage to spot bits you miss, we should be sorted, right? Well, it's a great start, but it's not perfect.
+>>>>>>>>>>
+
+So by using red-green-refactor, and test coverage to spot bits you miss, we should be sorted, right?
+
+>>>>>>>>>>
+
+Well, it's a great start, but we can do more.
+
+>>>>>>>>>>
 
 <code+tests>
-Here's some code, and its tests.
-A mutation testing tool will make a change to the code. Maybe swap an and to an or.
-The tests are run against this "mutated" code.
+Here's some code designed to say whether it's ok to have a cup of tea.
+...
+
+And here are some tests.
+We're checking that 4am is not an ok time to have tea.
+But noon is ok.
+
+But we've missed a case here. What about 5 AM?
+What about 11 PM?
+
+>>>>>>>>>>
+
+But test coverage doesn't help us here, it says all code is covered.
+And it is. All bits of our code were run, but not all of them were tested.
+
+>>>>>>>>>>
+
+A mutation testing tool will make a change to your code, a mutant. Maybe swap an and to an or, or a plus to a minus.
+It then runs the tests against this "mutated" code.
 If the tests still pass, that means they're not properly testing that bit of code that was changed.
 This "mutant" has said to "survive" the testing process.
 
-And there's lots of tools out there, for Java, ...
-But for C#? Well, there's not really anything that's stable or up-to-date.
+>>>>>>>>>>
+
+So let's go back to the previous example.
+Here the mutation testing tool will change the > to a >=.
+It runs the tests again, and we don't expect them to fail, because we're not testing the case when the time is on the lower boundary, 5AM
+And the mutant survives
+
+>>>>>>>>>>
+
+And this is flagged.
+This is the output, it's saying that it changed the > 5 to a >= 5 and the tests didn't pick it up. And then it did a similar thing for the < 22.
+
+>>>>>>>>>>
+
+So going back to the earlier question: RGR and TC + profit?
+The trouble is...
+...RGR requires discipline. It's easy to forget, to go and make an extra change without a test.
+...And test coverage only shows that code was run. That's useful, but doesn't tell you whether your tests are any good. You could delete your assertions and still get 100% test coverage.
+
+Mutation testing can act as a safety net for these flaws.
+
+>>>>>>>>>>
+
+And if you want to do mutation testing there are tools out there for...
+...but C#? Well, there are a few but they aren't being maintained, don't seem to work anymore.
 
 So, I thought,
-how hard could it be?
-I'd have a go at writing one
-and what I showed you is what I wrote, with some help from my colleagues. And I called it Fettle.
+
+>>>>>>>>>>
+
+how hard could it be to write one?
+
+>>>>>>>>>>
+
+So I had a go, and with help from some of my colleagues, came up with a tool called Fettle.
 
 I worked with a chap who was from Yorkshire and if something wasn't right, he'd say (and I won't do the accent) "you need to fettle it"  and that stuck with me.
 
 It means to make better, and also to be in good shape.
+
+>>>>>>>>>>
+
+So what does it need to do?
+
+>>>>>>>>>>
+
+At a very high level, two things.
+...mutate the code. so that's find bits that can be changed, and change them.
+...and then run the tests, to see if any fail.
+
+And to keep things simple, I decided to support .NET Framework (so, not dotnet core) and the Nunit testing framework, which would support most of the C# code my team looked after.
+
+>>>>>>>>>>
+
+So starting with how to mutate the code.
+The first option I looked at was...
+
+>>>>>>>>>>
+
+...modifying the CIL.
+When .NET code gets compiled into an assembly, it's converted into Common Intermediate Language, which looks a lot like assembler.
+
+>>>>>>>>>>
+
+Here's a C# method which adds two numbers together.
+When it's compiled, the CIL looks like this:
+
+I was able to use a library called Cecil to open an assembly, look for a certain CIL instruction, modify it, and re-save the assembly.
+
+Once I had a mutated assembly, I could run tests against it.
+
+>>>>>>>>>>
+
+That led to something that worked, a first pass
+...and it spotted gaps in our tests.
+...but it also gave false positives
+...and took hours to run
+
+>>>>>>>>>>
+
+The reason it was bringing up false positives was because of how the C# compiler works.
+
+Whilst it was fine in a simple example like previously, here's something a bit more complicated, a switch statement.
+
+It turns out that the C# compiler will go through passes before finally converting C# into CIL. It does this for optimisations, or to support "syntactic sugar" like async/await.
+
+...and so the CIL for this switch statement is actually based on this C# code which the compiler generated. I think this is an optimisation.
+
+...and so Fettle would make mutations in this code, and come up with results saying "the <= 3826... was converted to a >= 3826..." which made no sense to the person who wrote the original code.
+
+>>>>>>>>>>
+
+And so I looked at Roslyn as an alternative.
+Roslyn is Microsoft's C# compiler, as an open source API.
+
+>>>>>>>>>>
+
+If you have the tea-time code from earlier.
+...Roslyn can give you a syntax tree, which is a structure that represents the syntax of the code.
+This tree can be navigated, and then modified, before being re-compiled.
+
+So although there's an extra compilation step, it means I can deal with the code exactly as the developer sees it, and there's no need to understand how the compiler works.
+
+>>>>>>>>>>
+
+Now with Roslyn, Fettle is in its second pass
+...it still finds gaps in tests
+...false positives have gone away
+...but it still takes ages
+
+>>>>>>>>>>
+
+The time came to look at ways of making it faster
+
+>>>>>>>>>>
+
+The first thing to do was to stop running the tests as soon as any test failed.
+Just one test failing is enough, no need to carry on to the end.
+This can make a big difference, but depends on the order of the tests.
+
+>>>>>>>>>>
+
+Next, I switched from running the tests in the NUnit command line, to using the NUnit API.
+
+This means that rather than the command line tool having to initialise for each mutation, that initialisation would happen once.
+
+>>>>>>>>>>
+
+But there was an elephant in the room.
+...for every instruction that was being changed, all tests were potentially being run.
+
+>>>>>>>>>>
+
+So how about only running the tests that are relevant for a given mutation?
+
+>>>>>>>>>>
+
+Here's a very simple app with three methods and three tests.
+How to tell which method is called by which test?
+
+...let's start by running just the first test.
+and capture which methods execute
+...and then the Next
+...and so on, and you get a table like this
+once you know which methods a test executes, you can
+...invert it, and now you know what tests are called by a method
+
+>>>>>>>>>>
+
+But the tricky bit was, how to tell wether a method was executed or not?
+
+I then looked at using Microsoft's profiler API, but that's native, so I'd have to handle C++/.NET interop.
+
+I then started spiking out a complicated set up where I modified the code  modified to send messages to a server over TCP, but my implementation was slow and buggy.
+
+>>>>>>>>>>
+
+But in the end, I found something really simple.
+
+>>>>>>>>>>
+
+Which is to add a Console WriteLine to each method.
+It outputs a GUID, which I generate for each method.
+And some code parses the output from NUnit.
+
+>>>>>>>>>>
+
+So now Fettle is in its third generation.
+...still finding gaps in the tests
+...false positives still not a thing
+...but now instead of hours, it takes minutes.
+
+>>>>>>>>>>
+
+And now, it's part of the development process in our team.
+
+>>>>>>>>>>
+
+We run Fettle against a particular C# code base where correctness is particularly important. It handles how we map customer data from the CTM format into the various formats our insurer partners require.
+
+...(stats)
+
+>>>>>>>>>>
+
+And running it against a real code base has helped uncover some issues.
+
+>>>>>>>>>>
+
+Fettle can mutate the code into an infinite loop.
+...E.g. a for loop
+...never ends, just hangs, or maybe runs out of memory
+
+>>>>>>>>>>
+
+There was an issue where Fettle stopped analysing a certain part of the code base, due to a bug in Fettle. Although Fettle has its own tests, this was a particular edge case that wasn't handled.
+
+Gaps in the tests weren't being highlighted, until I happened to spot one myself and wondered why Fettle hadn't spotted it.
+
+>>>>>>>>>>
+
+But,
+...overall it regularly highlights issues.
+
+>>>>>>>>>>
+
+It's allowed us to
+...plug gaps in our tests
+...delete code we don't need
+...and encouraged us to be better at following RGR (because sometimes working out how to fix a surviving mutant can be a head scratcher)
+
+>>>>>>>>>>
+
+...and we have greater confidence
+
+>>>>>>>>>>
+
+So what's next?
+...there's more mutations that can be performed, to catch more types of issues.
+...supporting the mutation of code within properties (currently just methods)
+...and faster feedback. The sooner you get a notification about an issue, the fresher it will be in your mind, and the easier it will be to fix.
+We have plans to work out which source files have changed and only mutate them. If we can get the time taken down to a minute or so then it starts to become feasible for it to be run on every commit.
+
+>>>>>>>>>>
+
+I've had help from my colleagues, especially Peter and Raghav.
+
+>>>>>>>>>>
+
+But this is where we need you
+If you'd like to give Fettle a go, and tell us how you get on, that'd be brilliant
+
+Or maybe fix a bug, then that'd be brilliant.
+
+Or maybe you just want to have a look at the code, that's fine too.
+
+>>>>>>>>>>
+
+Because we're still working to get sign-off from legal, Fettle isn't open source yet.
+
+But, if you get in touch I can give people within BGL access to it.
+
+So please don't hesitate to get in touch.
 
 ==================
 Simple Testing Can Prevent Most Critical Failures: An Analysis of Production Failures in Distributed Data-Intensive Systems Ding Yuan, Yu Luo, Xin Zhuang, Guilherme Renna Rodrigues, Xu Zhao, Yongle Zhang, Pranay U. Jain, and Michael Stumm, University of Toronto
