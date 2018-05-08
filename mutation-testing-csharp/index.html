@@ -1,5 +1,7 @@
 <html>
 	<head>
+		<meta charset='utf-8'>
+
 		<link rel="stylesheet" href="reveal.js/css/reveal.css">
 		<link rel="stylesheet" href="reveal.js/css/theme/league.css">
         <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
@@ -55,20 +57,94 @@
 					<h2 class="fragment" style="color: green">Make it pass</h2>
 					<h2 class="fragment" style="color: green">Refactor</h2>
 				</section>
-
 				<section>
-					<h1>Demo</h1>
+					<h2>
+						<span class="fragment">Test coverage</span>
+						<span class="fragment">+</span>
+						<span class="fragment">Red-Green-Refactor</span>
+						<span class="fragment">=</span>
+						<span class="fragment">Profit? 💰</span>
+					</h2>
 				</section>
 
 				<section data-background="#FF5E99A0">
-					<h1>Mutation testing</h1>
+					<h1>Mutation testing 👾</h1>
+				</section>
+
+				<section data-transition="none" data-background="#FF5E99A0">
+                    <pre class="fragment"><code data-trim data-noescape>
+
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+    return hour > 5 && hour < 22;
+}
+
+					</code></pre>
+
+					<pre class="fragment"><code data-trim data-noescape>
+
+[Test]
+public void Perfect_tea_time()
+{
+    Assert.That(
+        Tea.IsItTeaTimeYet(3),
+        Is.False);
+
+    Assert.That(
+        Tea.IsItTeaTimeYet(12),
+        Is.True);
+}
+
+					</code></pre>
+					<h2 class="fragment">All code covered 😬</h2>
+				</section>
+				<section data-transition="none" data-background="#FF5E99A0">
+                    <pre><code data-trim data-noescape>
+
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+    return hour >= 5 && hour < 22; // '> 5' mutated to '>= 5'
+}
+
+					</code></pre>
+
+					<pre class="fragment"><code data-trim data-noescape>
+
+[Test]
+public void Perfect_tea_time()
+{
+    Assert.That(
+        Tea.IsItTeaTimeYet(3),
+        Is.False);
+
+    Assert.That(
+        Tea.IsItTeaTimeYet(12),
+        Is.True);
+}
+
+					</code></pre>
+					<h2 class="fragment"><span>All code covered</span><span class="fragment"></span></h2>
+					<h2 class="fragment"><span>Mutants survived 👍</span><span class="fragment"></span></h2>
 				</section>
 
 				<section data-background="#FF5E99A0">
-					<p>(diagram) code and tests</p>
-					<p class="fragment">(diagram) mutation</p>
-					<p class="fragment">(diagram) tests run again</p>
-					<p class="fragment">(diagram) did they catch the mutant?</p>
+					<pre><code data-trim data-noescape>
+
+2 mutant(s) survived!
+
+(1) \MutationTestingExample\TeaTime.cs:8
+  original: return hour > 5 && hour < 22;
+  mutated: return hour >= 5 && hour < 22;
+
+(2) \MutationTestingExample\TeaTime.cs:8
+  original: return hour > 5 && hour < 22;
+  mutated: return hour > 5 && hour <= 22;
+
+					</code></pre>
+				</section>
+
 				</section>
 
 				<section data-background="#FF5E99A0">
@@ -88,7 +164,7 @@
 				<section data-background="#28c16c">
 					<p>
 						<img style="background:none; border:none; box-shadow:none" class="stretch" src="./fettle-definition.png">
-						<p><i>From google dictionary</i></p>
+						<p style="font-size: 50%"><i>From google dictionary</i></p>
 					</p>
 				</section>
 
@@ -104,27 +180,98 @@
 					<h1>CIL</h1>
 				</section>
 				<section data-background="#d29131">
-					<h2>(diagram: code different from CIL)</h2>
+					<pre><code data-trim data-noescape>
+public static int Sum(int a, int b)
+{
+   return a + b;
+}
+					</code></pre>
+					<pre class="fragment"><code>
+IL_0000: nop
+IL_0001: ldarg.0
+IL_0002: ldarg.1
+IL_0003: add			# the interesting bit
+IL_0004: stloc.0
+IL_0005: br.s IL_0007
+IL_0007: ldloc.0
+IL_0008: ret
+					</code></pre>
 				</section>
 				<section data-background="#28c16c">
 					<h1>First Pass</h1>
-					<h2 class="fragment">Finds gaps in our tests</h2>
-					<h2 class="fragment">False positives</h2>
-					<h2 class="fragment">Takes hours</h2>
+					<h2 class="fragment">Finds gaps in our tests 👍</h2>
+					<h2 class="fragment">False positives 😬</h2>
+					<h2 class="fragment">Takes hours 😬</h2>
+				</section>
+				<section data-background="#d29131">
+					<pre><code data-trim data-noescape>
+string result = "";
+switch (input)
+{
+ 	case "a": result = "F"; break;
+ 	case "b": result = "G"; break;
+ 	case "c": result = "H"; break;
+ 	...
+	case "j": result = "O"; break;
+}
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+string result = "";
+uint num = <PrivateImplementationDetails>.ComputeStringHash(input);
+if (num <= 3826002220u)
+{
+  if (num <= 3775669363u)
+  {
+    if (num != 3758891744u)
+    {
+      if (num == 3775669363u)
+      {
+     	...
+					</code></pre>
+					<h2 class="fragment">🤔</h2>
+				</section>
+				<section data-background="#d29131">
+					<pre><code data-trim data-noescape>
+
+for every class
+	for every method
+		for every instruction
+			run all the tests
+
+					</code></pre>
+					<h2 class="fragment">😱</h2>
 				</section>
 
 				<section data-background="#d29131">
 					<h1>Roslyn</h1>
 				</section>
 				<section data-background="#d29131">
-					<img src="./roslyn-structure.png">
-					<img src="./roslyn-code.png">
+					<pre><code data-trim data-noescape>
+
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+    return hour > 5 && hour < 22;
+}
+
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+
+MethodDeclaration
+
+	ParameterList
+
+		OpenParenToken
+		Parameter			# int hour
+		CloseParenToken		
+
+</code></pre>
 				</section>
 				<section data-background="#28c16c">
 					<h1>Second Pass</h1>
-					<h2 class="fragment">Finds gaps in our tests</h2>
-					<h2 class="fragment"><del>False positives</del></h2>
-					<h2 class="fragment">Takes hours</h2>
+					<h2 class="fragment">Finds gaps in our tests 👍</h2>
+					<h2 class="fragment"><del>False positives</del> 👍</h2>
+					<h2 class="fragment">Takes hours 😬</h2>
 				</section>
 
 				<section data-background="#d29131">
@@ -141,9 +288,9 @@
 				</section>
 				<section data-background="#28c16c">
 					<h1>Third Pass</h1>
-					<h2 class="fragment">Finds gaps in our tests</h2>
-					<h2 class="fragment"><del>False positives</del></h2>
-					<h2 class="fragment">Takes <del>hours</del> minutes</h2>
+					<h2 class="fragment">Finds gaps in our tests 👍</h2>
+					<h2 class="fragment"><del>False positives</del> 👍</h2>
+					<h2 class="fragment">Takes <del>hours</del> minutes 👍</h2>
 				</section>
 
 				<section data-background="#28c16c">

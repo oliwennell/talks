@@ -32,12 +32,7 @@ The idea is that you never write functionality without having a test.
 
 So by using red-green-refactor, and test coverage to spot bits you miss, we should be sorted, right? Well, it's a great start, but it's not perfect.
 
-<DEMO>
-
-This is mutation testing. And it's highlighted a gap in the tests.
-But what's it doing?
-
-<diagram>
+<code+tests>
 Here's some code, and its tests.
 A mutation testing tool will make a change to the code. Maybe swap an and to an or.
 The tests are run against this "mutated" code.
@@ -51,6 +46,10 @@ So, I thought,
 how hard could it be?
 I'd have a go at writing one
 and what I showed you is what I wrote, with some help from my colleagues. And I called it Fettle.
+
+I worked with a chap who was from Yorkshire and if something wasn't right, he'd say (and I won't do the accent) "you need to fettle it"  and that stuck with me.
+
+It means to make better, and also to be in good shape.
 
 ==================
 Simple Testing Can Prevent Most Critical Failures: An Analysis of Production Failures in Distributed Data-Intensive Systems Ding Yuan, Yu Luo, Xin Zhuang, Guilherme Renna Rodrigues, Xu Zhao, Yongle Zhang, Pranay U. Jain, and Michael Stumm, University of Toronto
