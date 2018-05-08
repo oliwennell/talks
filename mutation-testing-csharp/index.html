@@ -1,7 +1,6 @@
 <html>
 	<head>
-		<meta charset='utf-8'>
-
+		
 		<link rel="stylesheet" href="reveal.js/css/reveal.css">
 		<link rel="stylesheet" href="reveal.js/css/theme/league.css">
         <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
@@ -126,7 +125,7 @@ public void Perfect_tea_time()
 
 					</code></pre>
 					<h2 class="fragment"><span>All code covered</span><span class="fragment"></span></h2>
-					<h2 class="fragment"><span>Mutants survived 👍</span><span class="fragment"></span></h2>
+					<h2 class="fragment"><span>Mutants survived 👾</span><span class="fragment"></span></h2>
 				</section>
 
 				<section data-background="#FF5E99A0">
@@ -230,17 +229,7 @@ if (num <= 3826002220u)
 					</code></pre>
 					<h2 class="fragment">🤔</h2>
 				</section>
-				<section data-background="#d29131">
-					<pre><code data-trim data-noescape>
 
-for every class
-	for every method
-		for every instruction
-			run all the tests
-
-					</code></pre>
-					<h2 class="fragment">😱</h2>
-				</section>
 
 				<section data-background="#d29131">
 					<h1>Roslyn</h1>
@@ -263,7 +252,7 @@ MethodDeclaration
 
 		OpenParenToken
 		Parameter			# int hour
-		CloseParenToken		
+		CloseParenToken
 
 </code></pre>
 				</section>
@@ -272,6 +261,17 @@ MethodDeclaration
 					<h2 class="fragment">Finds gaps in our tests 👍</h2>
 					<h2 class="fragment"><del>False positives</del> 👍</h2>
 					<h2 class="fragment">Takes hours 😬</h2>
+				</section>
+				<section data-background="#d29131">
+					<pre><code data-trim data-noescape>
+
+for every class
+	for every method
+		for every instruction
+			run all the tests
+
+					</code></pre>
+					<h2 class="fragment">😱</h2>
 				</section>
 
 				<section data-background="#d29131">
@@ -302,9 +302,24 @@ MethodDeclaration
 				</section>
 				<section data-background="#d29131">
 					<h1>Issues</h1>
+				</section>
+				<section data-background="#d29131">
 					<h2 class="fragment">Infinite loops</h2>
-					<h2 class="fragment">OOM</h2>
-					<h2 class="fragment">False negatives</h2>
+					<pre class="fragment"><code data-trim data-noescape>
+for (int i = 0; i < num; i++)
+{
+	...
+}
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+for (int i = 0; i < num; i--) // '++' changed to '--'
+{
+	...
+}
+					</code></pre>
+				</section>
+				<section data-background="#d29131">
+					<h2 class="fragment">False negatives 👻</h2>
 				</section>
 				<section data-background="#28c16c">
 					<h1>...But</h1>
@@ -325,7 +340,7 @@ MethodDeclaration
 					<h2 class="fragment">Faster feedback</h2>
 				</section>
 				<section data-background="#FF5E99A0">
-					<h1>We Need You</h1>
+					<h1>We Need You 📢</h1>
 				</section>
 				<section data-background="#FF5E99A0">
 					<h1>Have a chat</h1>
