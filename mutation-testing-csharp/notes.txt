@@ -1,0 +1,135 @@
+In 2014 some researches from the University of Toronto did some research on critical production bugs.
+
+They took bugs that had been found in large, complicated open source projects such as Redis, Hadoop, and analysed how they came about.
+
+One of their findings was:
+<quote>
+
+Now these are well designed, well tested systems. When I first read that I thought, "well, if even these projects have these kind of bugs then what hope have we got".
+
+Typically a combination of unit tests, which test the lower-level aspects of a system, combined with higher level tests, such as integration tests, help give you confidence that a system works.
+
+Unit tests are the foundation on which you build higher level tests. Knowing the components work allows you to concentrate on how they interact. If you're building on shaky foundations, then that's not good.
+
+But there's something positive here, too.
+
+So another way of saying this, is:
+<quote>
+and unit tests are normally quick to write and fast to run.
+
+So how do we write more comprehensive unit tests?
+
+One way is to use test coverage tools.
+These tell you which bits of your code was run by your tests.
+<image>
+Imagine if the green bits were run by the tests, and the grey weren't.
+The grey bits you know for sure aren't tested.
+But what about the green bits?
+
+Another way is to use the red-green-refactor method.
+<r/g/r>
+The idea is that you never write functionality without having a test.
+
+So by using red-green-refactor, and test coverage to spot bits you miss, we should be sorted, right? Well, it's a great start, but it's not perfect.
+
+<DEMO>
+
+This is mutation testing. And it's highlighted a gap in the tests.
+But what's it doing?
+
+<diagram>
+Here's some code, and its tests.
+A mutation testing tool will make a change to the code. Maybe swap an and to an or.
+The tests are run against this "mutated" code.
+If the tests still pass, that means they're not properly testing that bit of code that was changed.
+This "mutant" has said to "survive" the testing process.
+
+And there's lots of tools out there, for Java, ...
+But for C#? Well, there's not really anything that's stable or up-to-date.
+
+So, I thought,
+how hard could it be?
+I'd have a go at writing one
+and what I showed you is what I wrote, with some help from my colleagues. And I called it Fettle.
+
+==================
+Simple Testing Can Prevent Most Critical Failures: An Analysis of Production Failures in Distributed Data-Intensive Systems Ding Yuan, Yu Luo, Xin Zhuang, Guilherme Renna Rodrigues, Xu Zhao, Yongle Zhang, Pranay U. Jain, and Michael Stumm, University of Toronto
+
+Cassandra, HBase, Hadoop Distributed File System (HDFS), Hadoop MapReduce, and Redis
+
+https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-yuan.pdf
+
+in 58% of the catastrophic failures, the underlying faults could easily have been detected through simple testing of error handling code
+
+We found that 74% of the failures are deterministic in that they are guaranteed to manifest with an appropriate input sequence, that almost all failures are guaranteed to manifest on no more than three nodes, and that 77% of the failures can be reproduced by a unit test
+
+> well tested, but still fallible
+> scary? or positive - because unit tests are cheap to write and fast to run
+> unit tests a foundation, still need higher level tests
+
+> better unit tests
+	coverage
+	show box of code, coverage shows that these bits are executed
+	it’s a start. bits not covered are definitely not tested
+	but are bits covered tested? incomplete test cases, assertions...
+
+how should we test? red green refactor
+	feature creep: temptation to “do that little bit of validation”, not “minimum to make the test pass”
+	legacy systems
+	because we’re human: bits left untested, can still be “covered”
+	(example/demo, which shows gap not being picked up by coverage, but is by fettle)
+
+> but what’s going on here?
+	mutation testing
+	change bits of the code, check to see if any tests fail
+		if code was changed but tests all pass, then there’s a gap in the tests
+
+> fettle came about because there were tools for Java. JavaScript, … but not C# (*)
+
+> how does it work?
+ give fettle the .sln and tell it which bits are the code and which are the tests
+for each mutation, it modifies the code, rebuilds dll, runs the tests via NUnit.
+mutation:
+first tried IL using Cecil, but didn’t give good results
+		compiler-generated code, optimisations = code user sees can be very different from CIL
+	relying on knowing how the compiler generated the CIL, which is subject to change
+then tried Roslyn
+		MS have open sourced their compiler
+	Allows you to see source code as a syntax tree
+Great because changing code is easier (replace equals operator with not equals)
+But the mutated source code needs re-compiling
+
+> result = something that’s stable, but slow, run overnight, takes couple of hours on 44K LOC codebase with 95% test coverage.
+
+> optimisation:
+	use NUnit API instead of console runner, initialise only once
+	running every test => only run tests that use that method (directly or indirectly)
+		coverage pass that instruments the code
+			runs each test
+			captures which methods were executed
+	...now takes 15 - 20 minutes, run throughout the day
+
+> living with it - code at the core of data mapping
+	fixing mutants can be tricky, faster feedback has helped
+	been using it since November last year. 2 - 3 a month on average
+Nearly all the mutants have shown us:
+		we’ve had redundant code (we deleted it)
+		we’ve missed some tests (we added some)
+
+	greater confidence in unit tests
+	reminds us to do R/G/R
+
+> issues…
+	doesn’t mutate everything
+	can cause infinite loops, OOM (3 issues)
+
+> the future
+	I’ve been working with a couple of colleagues, but want to make it open source.
+	Make it faster, better at finding issues:
+only mutate recently changes files -> seconds (on every commit?)
+	support more types of mutation
+		dotnet core
+
+> Mutation testing is a useful tool in making your unit tests better
+> Exciting things happening in .NET world, things like Roslyn can help you make your code better
+> If you want to have a look at Fettle, email me your github username
