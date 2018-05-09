@@ -24,6 +24,8 @@ Another way of saying this, is:
 
 and unit tests are normally quick to write and fast to run.
 
+IF OUR UNIT TESTS ARE MORE COMPREHENSIVE, IT SAVES US TIME AND EFFORT
+
 >>>>>>>>>>
 
 So how do we write more comprehensive unit tests?
