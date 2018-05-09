@@ -255,25 +255,27 @@ if (num <= 3826002220u)
 				</section>
 				<section data-background="#d29131">
 					<pre><code data-trim data-noescape>
-
-public static bool IsItTeaTimeYet(
-	int hour)
+public static int Sum(int a, int b)
 {
-    return hour > 5 && hour < 22;
+   return a + b;
 }
-
 					</code></pre>
 					<pre class="fragment"><code data-trim data-noescape>
 
 MethodDeclaration
-
-	ParameterList
-
-		OpenParenToken
-		Parameter			# int hour
-		CloseParenToken
-
-		...
+	PublicKeyword
+	StaticKeyword
+	...
+	Block
+		OpenBraceToken
+		ReturnStatment
+			ReturnKeyword
+			AddExpression
+				IdentifierName		// 'a'
+				PlusToken		// '+'
+				IdentifierName		// 'b'
+			SemicolonToken
+		CloseBraceToken
 
 </code></pre>
 				</section>
@@ -431,22 +433,10 @@ public static bool IsItTeaTimeYet(
 					<h1>Issues</h1>
 				</section>
 				<section data-background="#d29131">
-					<h2 class="fragment">Infinite loops 💥</h2>
-					<pre class="fragment"><code data-trim data-noescape>
-for (int i = 0; i < num; i++)
-{
-	...
-}
-					</code></pre>
-					<pre class="fragment"><code data-trim data-noescape>
-for (int i = 0; i < num; i--) // '++' changed to '--'
-{
-	...
-}
-					</code></pre>
+					<h1 class="fragment">Infinite loops 💥</h1>
 				</section>
 				<section data-background="#d29131">
-					<h2 class="fragment">False negatives 👻</h2>
+					<h1 class="fragment">False negatives 👻</h1>
 				</section>
 				<section data-background="#28c16c">
 					<h1>...But</h1>
