@@ -9,7 +9,7 @@ An introduction to mutation testing
 _BGL Meta 2017_ ([View slides](https://oliwennell.github.io/talks/mutation-testing/index.html))
 
 ## Mob Programming
-My experiences of mob programming
+My experiences of mob programming  
 [_Agile On Tap, June 2017_](https://www.meetup.com/Agile-Peterborough/events/240107042/) ([View slides](https://oliwennell.github.io/talks/mobbing/index.html))
 
 
