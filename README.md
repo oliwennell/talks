@@ -10,6 +10,9 @@ _BGL Meta 2017_ ([View slides](https://oliwennell.github.io/talks/mutation-testi
 
 ## Mob Programming
 My experiences of mob programming  
-[_Agile On Tap, June 2017_](https://www.meetup.com/Agile-Peterborough/events/240107042/) ([View slides](https://oliwennell.github.io/talks/mobbing/index.html))
+* [_Agile On Tap, June 2017_](https://www.meetup.com/Agile-Peterborough/events/240107042/) ([View slides](https://oliwennell.github.io/talks/mobbing/index.html))  
+* _BGL Meta 2016_ ([Download slides](https://github.com/oliwennell/talks/blob/master/mob-programming.pptx))
 
-
+## Seven Deadly Smells of Automated Tests
+Lessons learned writing bad tests  
+[_dev/winter 2015_](http://devcycles.net/2015/winter/sessions/index.php?session=16) ([Download slides](https://github.com/oliwennell/talks/blob/master/seven-deadly-smells_smaller.ppt))
