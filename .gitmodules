@@ -7,3 +7,6 @@
 [submodule "mutation-testing-csharp/reveal.js"]
 	path = mutation-testing-csharp/reveal.js
 	url = https://github.com/hakimel/reveal.js.git
+[submodule "mutation-testing-csharp2/reveal.js"]
+	path = mutation-testing-csharp2/reveal.js
+	url = https://github.com/hakimel/reveal.js.git
