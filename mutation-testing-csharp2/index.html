@@ -1,0 +1,464 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="./../mutation-testing/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="./../mutation-testing/reveal.js/css/theme/league.css">
+        <link rel="stylesheet" href="./../mutation-testing/reveal.js/lib/css/zenburn.css">
+        <style>
+
+		.reveal h1, h2, h3 {
+			word-wrap: normal;
+			-webkit-hyphens: manual;
+			-moz-hyphens: manual;
+			hyphens: manual;
+		}
+
+		html.dimbg .slide-background {
+		    opacity: 0.3 !important;
+		}
+
+		del {
+			opacity: 0.5
+		}
+
+        </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section data-background="Johannes_Vermeer_-_Woman_Holding_a_Balance.jpg" data-state="dimbg">
+                    <h1>Who Will Test The Tests?</h1>
+					<p style="font-size: 40%; opacity: 0.5">
+						<i>"Woman Holding a Balance" by Johannes Vermeer, photo from wikipedia.org</i>
+					</p>
+				</section>
+				<section data-background="bug.jpg">
+
+				</section>
+
+				<section>
+					<blockquote style="font-size: 200%; background: none; box-shadow: none">&ldquo;...77% of the failures can be reproduced by a unit test&rdquo;</blockquote>
+					<p style="font-size: 40%">
+						<i>https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-yuan.pdf</i>
+					</p>
+				</section>
+				<section data-transition="fade">
+					<blockquote style="font-size: 200%; background: none; box-shadow: none">...we can prevent many serious bugs by just writing unit tests</blockquote>
+				</section>
+				<section data-transition="fade">
+					<blockquote style="font-size: 200%; background: none; box-shadow: none">...making our unit tests more comprehensive has a big benefit</blockquote>
+				</section>
+
+
+				<section>
+					<h1>More Comprehensive Unit Tests</h1>
+				</section>
+				<section>
+					<img src="./coverage.png" class="stretch" style="background:none; border:none; box-shadow:none">
+				</section>
+				<section data-transition="none">
+					<h1>TDD</h1>
+					<h2 class="fragment" style="color: f55151">Write a failing test</h2>
+					<h2 class="fragment" style="color: green">Make it pass</h2>
+					<h2 class="fragment" style="color: green">Refactor</h2>
+				</section>
+				<section data-transition="none">
+					<h1>TDD</h1>
+					<h2 style="color: f55151">Write a failing test</h2>
+					<h2 style="color: green">&nbsp;</h2>
+					<h2 style="color: green">&nbsp;</h2>
+				</section>
+				<section data-transition="none">
+					<h1>TDD</h1>
+					<h2 style="color: green">No code without a test</h2>
+					<h2 style="color: green">&nbsp;</h2>
+					<h2 style="color: green">&nbsp;</h2>
+				</section>
+				<section>
+					<h2>
+						<span class="fragment">Test coverage</span>
+						<span class="fragment">+</span>
+						<span class="fragment">TDD</span>
+						<span class="fragment">=</span>
+						<span class="fragment">Profit? 💰</span>
+					</h2>
+				</section>
+				<section data-background="#d29131">
+					<h1>It's a great <u>start</u></h1>
+				</section>
+
+				<section data-transition="none" data-background="#FF5E99A0">
+                    <pre class="fragment"><code data-trim data-noescape>
+
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+    return hour > 5 && hour < 22;
+}
+
+					</code></pre>
+
+					<pre class="fragment"><code data-trim data-noescape>
+
+[Test]
+public void Perfect_tea_time()
+{
+    Assert.That(
+        Tea.IsItTeaTimeYet(3),
+        Is.False);
+
+    Assert.That(
+        Tea.IsItTeaTimeYet(12),
+        Is.True);
+}
+
+					</code></pre>
+					<h2 class="fragment">All code covered 😬</h2>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h2>Profit? 💰</span>
+					<h2 class="fragment">TDD requires discipline</h2>
+					<h2 class="fragment">Test coverage = code was run</h2>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h1>Mutation testing 👾</h1>
+				</section>
+				<section data-transition="none" data-background="#FF5E99A0">
+                    <pre><code data-trim data-noescape>
+
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+    return hour <mark>&gt;=</mark> 5 && hour < 22; // '> 5' mutated to '>= 5'
+}
+
+					</code></pre>
+
+					<pre class="fragment"><code data-trim data-noescape>
+
+[Test]
+public void Perfect_tea_time()
+{
+    Assert.That(
+        Tea.IsItTeaTimeYet(3),
+        Is.False);
+
+    Assert.That(
+        Tea.IsItTeaTimeYet(12),
+        Is.True);
+}
+
+					</code></pre>
+					<h2 class="fragment"><span>Mutants survived 👾</span></span></h2>
+				</section>
+
+				<section data-background="#FF5E99A0">
+					<pre><code data-trim data-noescape>
+
+2 mutant(s) survived!
+
+(1) \MutationTestingExample\TeaTime.cs:8
+  original: return hour > 5 && hour < 22;
+  mutated: return hour >= 5 && hour < 22;
+
+(2) \MutationTestingExample\TeaTime.cs:8
+  original: return hour > 5 && hour < 22;
+  mutated: return hour > 5 && hour <= 22;
+
+					</code></pre>
+				</section>
+
+				<section data-background="#FF5E99A0">
+					<h1>Testing the tests</h1>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h2 class="fragment">Java</h2>
+					<h2 class="fragment">JavaScript</h2>
+					<h2 class="fragment">Ruby</h2>
+					<h2 class="fragment">PHP</h2>
+					<h2 class="fragment">...and C# ?</h2>
+				</section>
+
+				<section data-background="#d29131">
+					<h1>How hard could it be?</h1>
+				</section>
+				<section data-background="#28c16c">
+					<h1>Fettle</h1>
+				</section>
+				<section data-background="#28c16c">
+					<p>
+						<img style="background:none; border:none; box-shadow:none" class="stretch" src="./fettle-definition.png">
+						<p style="font-size: 50%"><i>From google dictionary</i></p>
+					</p>
+				</section>
+
+				<section data-background="#d29131">
+					<h1>What does it need to do?</h1>
+				</section>
+				<section data-background="#d29131">
+					<h2 class="fragment">Mutate the code</h2>
+					<h2 class="fragment">Run the tests</h2>
+				</section>
+				<section data-background="#d29131">
+					<h2 class="fragment">.NET Framework</h2>
+					<h2 class="fragment">NUnit 3</h2>
+				</section>
+
+				<section data-background="#d29131">
+					<h1>Mutate the code</h1>
+				</section>
+				<section data-background="#d29131">
+					<h1>CIL</h1>
+				</section>
+				<section data-background="#d29131">
+					<pre><code data-trim data-noescape>
+public static int Sum(int a, int b)
+{
+   return a + b;
+}
+					</code></pre>
+					<pre class="fragment"><code>
+IL_0000: nop
+IL_0001: ldarg.0
+IL_0002: ldarg.1
+IL_0003: add			# the interesting bit
+IL_0004: stloc.0
+IL_0005: br.s IL_0007
+IL_0007: ldloc.0
+IL_0008: ret
+					</code></pre>
+				</section>
+				<section data-background="#28c16c">
+					<h1>First Pass</h1>
+					<h2 class="fragment">Finds gaps in our tests 👍</h2>
+					<h2 class="fragment">False positives 😬</h2>
+					<h2 class="fragment">Takes hours 😬</h2>
+				</section>
+				<section data-background="#d29131">
+					<pre><code data-trim data-noescape>
+string result = "";
+switch (input)
+{
+ 	case "a": result = "F"; break;
+ 	case "b": result = "G"; break;
+ 	case "c": result = "H"; break;
+ 	...
+	case "j": result = "O"; break;
+}
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+string result = "";
+uint num = <PrivateImplementationDetails>.ComputeStringHash(input);
+if (num <= 3826002220u)
+{
+  if (num <= 3775669363u)
+  {
+    if (num != 3758891744u)
+    {
+      ...
+					</code></pre>
+					<h2 class="fragment">🤔</h2>
+				</section>
+
+
+				<section data-background="#d29131">
+					<h1>Roslyn</h1>
+				</section>
+				<section data-background="#d29131">
+					<pre><code data-trim data-noescape>
+public static int Sum(int a, int b)
+{
+   return a + b;
+}
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+
+MethodDeclaration
+	PublicKeyword
+	StaticKeyword
+	...
+	Block
+		OpenBraceToken
+		ReturnStatment
+			ReturnKeyword
+			AddExpression
+				IdentifierName		// 'a'
+				PlusToken		// '+'
+				IdentifierName		// 'b'
+			SemicolonToken
+		CloseBraceToken
+
+</code></pre>
+				</section>
+				<section data-background="#28c16c">
+					<h1>Second Pass</h1>
+					<h2 class="fragment">Finds gaps in our tests 👍</h2>
+					<h2 class="fragment"><del>False positives</del> 👍</h2>
+					<h2 class="fragment">Takes hours 😬</h2>
+				</section>
+				<section data-background="#d29131">
+					<h1>Optimisations</h1>
+				</section>				
+				<section data-background="#d29131">
+					<pre><code data-trim data-noescape>
+
+for every class
+	for every method
+		for every instruction
+			run all the tests
+
+					</code></pre>
+					<h2 class="fragment">😱</h2>
+				</section>
+				<section data-background="#d29131">
+					<h1>Red build syndome 🙈</h1>
+				</section>
+				
+				<section data-background="#d29131">
+					<h1>Only run relevant tests</h1>
+				</section>				
+				<section data-background="#d29131">
+					<h1>How to tell?</h1>
+				</section>
+				<section data-background="#d29131" data-transition="none">
+					<pre><code data-trim data-noescape>
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+	return hour > 5 && hour < 22;
+}
+					</code></pre>
+				</section>
+				<section data-background="#d29131" data-transition="none">
+					<pre><code data-trim data-noescape>
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+	Console.WriteLine(
+		"Fettle: d3044986-2942-4d5b-b157-99c0d9488f54");
+
+	return hour > 5 && hour < 22;
+}
+					</code></pre>
+				</section>
+				<section data-background="#d29131" data-transition="none">
+					<pre class="fragment"><code data-trim data-noescape>
+						TestA
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+						MethodA
+						MethodC
+					</code></pre>
+				</section>
+				<section data-background="#d29131" data-transition="none">
+					<pre class="fragment"><code data-trim data-noescape>
+						TestB
+					</code></pre>
+					<pre class="fragment"><code data-trim data-noescape>
+						MethodC
+						MethodD
+					</code></pre>
+				</section>
+				<section data-background="#d29131" data-transition="none">					
+					<table>
+						<tr>
+							<td><p>MethodA</p></td><td>&nbsp;</td><td><p>TestA</p></td>
+						</tr>
+						<tr>
+							<td><p>MethodB</p></td><td>&nbsp;</td><td><p>(never called)</p></td>
+						</tr>
+						<tr>
+							<td><p>MethodC</p></td><td>&nbsp;</td><td>TestA, TestB</td>
+						</tr>
+						<tr>
+							<td><p>MethodD</p></td><td>&nbsp;</td><td>TestB</td>
+						</tr>
+					</table>
+				</section>
+				
+
+				<section data-background="#28c16c">
+					<h1>Third Pass</h1>
+					<h2 class="fragment">Finds gaps in our tests 👍</h2>
+					<h2 class="fragment"><del>False positives</del> 👍</h2>
+					<h2 class="fragment">Takes <del>hours</del> minutes 👍</h2>
+				</section>
+
+				<section data-background="#28c16c">
+					<h1>Part Of The Pipeline</h1>
+				</section>
+				<section data-background="#28c16c">
+					<h2 class="fragment">15K lines of code</h2>
+					<h2 class="fragment">96% test coverage</h2>
+					<h2 class="fragment">12 minutes</h2>
+					<h2 class="fragment">Overnight and on-demand</h2>
+				</section>
+				<section data-background="#28c16c">
+					<h2 class="fragment">3K lines of code</h2>
+					<h2 class="fragment">95% test coverage</h2>
+					<h2 class="fragment">2 minutes</h2>
+					<h2 class="fragment">As part of CI</h2>
+				</section>
+				<section data-background="#d29131">
+					<h1>Issues</h1>
+				</section>
+				<section data-background="#d29131">
+					<h1 class="fragment">Cognitive Overload 🤯</h1>
+				</section>
+				<section data-background="#d29131">
+					<h1 class="fragment">Infinite loops 💥</h1>
+				</section>
+				<section data-background="#d29131">
+					<h1 class="fragment">Bugs 👻</h1>
+				</section>				
+				<section data-background="#28c16c">
+					<h1>...But</h1>
+					<h2 class="fragment">2 - 3 mutants a month on average</h2>
+				</section>
+				<section data-background="#28c16c">
+					<h2 class="fragment">Plug gaps in our tests 👍</h2>
+					<h2 class="fragment">Deleted redundant code 👍</h2>					
+				</section>
+				<section data-background="#28c16c">
+					<h1 class="fragment">Encourages TDD 👍</h1>
+				</section>
+				<section data-background="#28c16c">
+					<h1>...Greater confidence 😁</h1>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h1>The Future</h1>
+					<h2 class="fragment">Faster feedback?</h2>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h1>The Future?</h1>
+					<img class="fragment" src="./stryker.png" style="background:none; border:none; box-shadow:none; width:40%"/>					
+				</section>				
+				<section data-background="#FF5E99A0">
+					<h1>Have a chat</h1>
+					<p><a href="https://twitter.com/owennell">@owennell</a></p>					
+					<p>&nbsp;</p>
+					<p>Fettle <a href="https://github.com/ComparetheMarket/fettle">github.com/ComparetheMarket/fettle</a></p>
+					<p>Stryker.NET <a href="https://github.com/stryker-mutator/stryker-net">github.com/stryker-mutator/stryker-net</a></p>					
+					<p>Slides available at <a href="https://oliwennell.github.io">oliwennell.github.io</p>
+				</section>
+
+			</div>
+		</div>
+        <script src="./../mutation-testing/reveal.js/lib/js/head.min.js"></script>
+		<script src="./../mutation-testing/reveal.js/js/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+                dependencies: [
+                    {
+                        src: 'reveal.js/plugin/highlight/highlight.js',
+                        async: true,
+                        callback: function() { hljs.initHighlightingOnLoad(); }
+                    },
+					// Zoom in and out with Alt+click
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+                ]
+            });
+		</script>
+	</body>
+</html>
