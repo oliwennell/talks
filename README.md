@@ -2,7 +2,7 @@ A place to keep the slides and example code for the talks I've given :hear_no_ev
 
 ## Mutation Testing
 
-* [_DDD East Anglia 2018_](https://www.dddeastanglia.com/) ([View Slides](https://oliwennell.github.io/talks/mutation-testing-csharp2/index.html))
+* [_DDD East Anglia 2018_](https://www.dddeastanglia.com/) ([View Slides](https://oliwennell.github.io/talks/mutation-testing-csharp2/index.html) | [Example code](https://github.com/oliwennell/talks/tree/master/mutation-testing/example-app))
 * [_Ministry of Testing Peterborough, September 2018_](https://www.meetup.com/Ministry-of-Testing-Peterborough/events/253059542/) ([View Slides](https://oliwennell.github.io/talks/mutation-testing-csharp2/index.html))
 * _BGL Meta 2018_ ([View slides](https://oliwennell.github.io/talks/mutation-testing-csharp/index.html))
 * _BGL Meta 2017_ ([View slides](https://oliwennell.github.io/talks/mutation-testing/index.html) | [Example code](https://github.com/oliwennell/talks/tree/master/mutation-testing/example-app))
