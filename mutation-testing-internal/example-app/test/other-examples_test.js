@@ -30,3 +30,11 @@ const examples = require('../src/other-examples');
 //         assert.equal(examples.isADuck(false, false, true), true);
 //     });
 // });
+
+// describe('Example 5', () => {
+//     it("Leap year detection", () => {
+//         assert.equal(examples.isLeapYear(2012), true);
+//         assert.equal(examples.isLeapYear(2011), false);
+//         assert.equal(examples.isLeapYear(1900), false);
+//     });
+// });
