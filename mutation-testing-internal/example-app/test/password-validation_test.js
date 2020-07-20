@@ -14,11 +14,4 @@ describe('Password validation', () => {
             passwordValidation.validate("A"),
             true);
     });
-
-    // Uncomment this test to kill the mutant!
-    it('A string of length equal to 11 is not a valid password', () => {
-        assert.equal(
-            passwordValidation.validate("12345678901"),
-            false);
-    });
 });
