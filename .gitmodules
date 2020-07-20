@@ -13,3 +13,6 @@
 [submodule "mobbing-2019/reveal.js"]
 	path = mobbing-2019/reveal.js
 	url = https://github.com/hakimel/reveal.js.git
+[submodule "mutation-testing-internal/reveal.js"]
+	path = mutation-testing-internal/reveal.js
+	url = https://github.com/hakimel/reveal.js/tree/a349ff43c58c23f9c837b8ea9b5fc7d4761b8de3

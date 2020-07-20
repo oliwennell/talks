@@ -1,0 +1,203 @@
+<html>
+	<head>
+
+		<link rel="stylesheet" href="./../mutation-testing/reveal.js/css/reveal.css">
+		<link rel="stylesheet" href="./../mutation-testing/reveal.js/css/theme/league.css">
+        <link rel="stylesheet" href="./../mutation-testing/reveal.js/lib/css/zenburn.css">
+        <style>
+
+		.reveal h1, h2, h3 {
+			word-wrap: normal;
+			-webkit-hyphens: manual;
+			-moz-hyphens: manual;
+			hyphens: manual;
+		}
+
+		html.dimbg .slide-background {
+		    opacity: 0.3 !important;
+		}
+
+		del {
+			opacity: 0.5
+		}
+
+        </style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section data-background="Johannes_Vermeer_-_Woman_Holding_a_Balance.jpg" data-state="dimbg">
+                    <h1>Who Will Test The Tests?</h1>
+					<p style="font-size: 40%; opacity: 0.5">
+						<i>"Woman Holding a Balance" by Johannes Vermeer, photo from wikipedia.org</i>
+					</p>
+				</section>
+
+				<section>
+					<blockquote style="font-size: 200%; background: none; box-shadow: none">&ldquo;...77% of the failures can be reproduced by a unit test&rdquo;</blockquote>
+					<p style="font-size: 40%">
+						<i>https://www.usenix.org/system/files/conference/osdi14/osdi14-paper-yuan.pdf</i>
+					</p>
+				</section>
+				<section data-transition="fade">
+					<blockquote style="font-size: 200%; background: none; box-shadow: none">...we can prevent many serious bugs by just writing unit tests</blockquote>
+				</section>
+				<section data-transition="fade">
+					<blockquote style="font-size: 200%; background: none; box-shadow: none">...making our unit tests more comprehensive has a big benefit</blockquote>
+				</section>
+
+
+				<section>
+					<h1>More Comprehensive Unit Tests</h1>
+				</section>
+				<section>
+					<img src="./coverage.png" class="stretch" style="background:none; border:none; box-shadow:none">
+				</section>
+				<section data-transition="none">
+					<h1>TDD</h1>
+					<h2 class="fragment" style="color: f55151">Write a failing test</h2>
+					<h2 class="fragment" style="color: green">Make it pass</h2>
+					<h2 class="fragment" style="color: green">Refactor</h2>
+				</section>
+				<section data-transition="none">
+					<h1>TDD</h1>
+					<h2 style="color: f55151">Write a failing test</h2>
+					<h2 style="color: green">&nbsp;</h2>
+					<h2 style="color: green">&nbsp;</h2>
+				</section>
+				<section data-transition="none">
+					<h1>TDD</h1>
+					<h2 style="color: green">No code without a test</h2>
+					<h2 style="color: green">&nbsp;</h2>
+					<h2 style="color: green">&nbsp;</h2>
+				</section>
+				<section>
+					<h2>
+						<span class="fragment">Coverage</span>
+						<span class="fragment">+</span>
+						<span class="fragment">TDD</span>
+						<span class="fragment">=</span>
+						<span class="fragment">Profit? 💰</span>
+					</h2>
+				</section>
+				<section data-background="#d29131">
+					<h1>It's a great <u>start</u></h1>
+				</section>
+
+				<section data-transition="none" data-background="#FF5E99A0">
+                    <pre class="fragment"><code data-trim data-noescape>
+
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+    return hour > 5 && hour < 22;
+}
+
+					</code></pre>
+
+					<pre class="fragment"><code data-trim data-noescape>
+
+[Test]
+public void Perfect_tea_time()
+{
+    Assert.That(
+        Tea.IsItTeaTimeYet(3),
+        Is.False);
+
+    Assert.That(
+        Tea.IsItTeaTimeYet(12),
+        Is.True);
+}
+
+					</code></pre>
+					<h2 class="fragment">All code covered 😬</h2>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h2>Profit? 💰</span>
+					<h2 class="fragment">TDD requires discipline</h2>
+					<h2 class="fragment">Coverage = code was run</h2>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h1>Mutation testing 👾</h1>
+				</section>
+				<section data-background="#FF5E99A0">
+					<h2 class="fragment">If you change behaviour</h2>
+					<h2 class="fragment">...a test should fail</h2>
+				</section>
+
+				<section data-transition="none" data-background="#FF5E99A0">
+                    <pre><code data-trim data-noescape>
+
+public static bool IsItTeaTimeYet(
+	int hour)
+{
+    return hour <mark>&gt;=</mark> 5 && hour < 22; // '> 5' mutated to '>= 5'
+}
+
+					</code></pre>
+
+					<pre class="fragment"><code data-trim data-noescape>
+
+[Test]
+public void Perfect_tea_time()
+{
+    Assert.That(
+        Tea.IsItTeaTimeYet(3),
+        Is.False);
+
+    Assert.That(
+        Tea.IsItTeaTimeYet(12),
+        Is.True);
+}
+
+					</code></pre>
+					<h2 class="fragment"><span>Mutant survived 👾</span></span></h2>
+				</section>
+
+				<section data-background="#FF5E99A0">
+					<pre><code data-trim data-noescape>
+MutationTestingExample\TeaTime.cs:8
+  original: return hour > 5 && hour < 22;
+  mutated: return hour >= 5 && hour < 22;
+					</code></pre>
+				</section>
+
+				<section data-background="#FF5E99A0">
+					<h1>Testing the tests</h1>
+				</section>
+			
+				<section data-background="#FF5E99A0">					
+					<p>My article on medium about mutation testing: <a href="https://medium.com/comparethemarket/who-will-test-the-tests-bd8c491e5205">medium.com/comparethemarket/who-will-test-the-tests-bd8c491e5205</a></p>
+					<p>Stryker: <a href="https://stryker-mutator.io/">stryker-mutator.io</a></p>										
+				</section>
+
+			</div>
+		</div>
+        <script src="./../mutation-testing/reveal.js/lib/js/head.min.js"></script>
+		<script src="./../mutation-testing/reveal.js/js/reveal.js"></script>
+		<script>
+			Reveal.initialize({
+                dependencies: [
+                    {
+                        src: 'reveal.js/plugin/highlight/highlight.js',
+                        async: true,
+                        callback: function() { hljs.initHighlightingOnLoad(); }
+                    },
+					// Zoom in and out with Alt+click
+					{ src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+                ]
+            });
+			
+			window.addEventListener("mousedown", handleClick, false);
+			window.addEventListener("contextmenu", 
+				function(e) { e.preventDefault(); }, false);
+
+			function handleClick(e) {
+				e.preventDefault();
+				if(e.button === 0) Reveal.next(); 
+				if(e.button === 2) Reveal.prev(); 
+			}
+		</script>
+	</body>
+</html>
